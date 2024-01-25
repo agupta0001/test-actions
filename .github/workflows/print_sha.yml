@@ -1,0 +1,16 @@
+name: "Print SHA"
+
+on: [pull_request]
+
+jobs:
+  print-sha:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get PR sha
+        id: get_pull_request_sha
+        run: |
+          pull_request_sha=$(jq --raw-output .pull_request.base.sha "$GITHUB_EVENT_PATH" | cut -c1-8)
+          echo "pull_request_sha=${pull_request_sha}" >> $GITHUB_OUTPUT
+          echo $pull_request_sha
